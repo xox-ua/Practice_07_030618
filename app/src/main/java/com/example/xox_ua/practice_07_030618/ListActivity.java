@@ -1,6 +1,7 @@
 package com.example.xox_ua.practice_07_030618;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -31,7 +33,15 @@ public class ListActivity extends AppCompatActivity {
             "Будапешт", "Дублин", "Рим", "Вильнюс", "Люксембург", "Рига", "Монако",
             "Валлетта", "Амстердам", "Варшава", "Лиссабон", "Бухарест", "Сан-Марино", "Братислава",
             "Любляна", "Киев", "Ватикан" };
+    public static int[] bookImage = { R.drawable.zz_flg_and, R.drawable.zz_flg_aut, R.drawable.zz_flg_bel, R.drawable.zz_flg_cyp,
+            R.drawable.zz_flg_cze, R.drawable.zz_flg_deu, R.drawable.zz_flg_dnk, R.drawable.zz_flg_esp, R.drawable.zz_flg_est,
+            R.drawable.zz_flg_fin, R.drawable.zz_flg_fra, R.drawable.zz_flg_gbr, R.drawable.zz_flg_grc, R.drawable.zz_flg_hrv,
+            R.drawable.zz_flg_hun, R.drawable.zz_flg_irl, R.drawable.zz_flg_ita, R.drawable.zz_flg_ltu, R.drawable.zz_flg_lux,
+            R.drawable.zz_flg_lva, R.drawable.zz_flg_mco, R.drawable.zz_flg_mlt, R.drawable.zz_flg_nld, R.drawable.zz_flg_pol,
+            R.drawable.zz_flg_prt, R.drawable.zz_flg_rou, R.drawable.zz_flg_smr, R.drawable.zz_flg_svk, R.drawable.zz_flg_svn,
+            R.drawable.zz_flg_ukr, R.drawable.zz_flg_vat };
     // имена атрибутов для Map
+    final String bIMAGE = "image";
     final String bTITLE = "title";
     final String bAUTHOR = "author";
     final String bRATING = "rate";
@@ -61,6 +71,7 @@ public class ListActivity extends AppCompatActivity {
         dataAL = new ArrayList<Map<String, Object>>(bookTitles.length);
         for (int i = 1; i < bookTitles.length; i++) {
             m = new HashMap<String, Object>();
+            m.put(bIMAGE, bookImage[i]);
             m.put(bTITLE, bookTitles[i]);
             m.put(bAUTHOR, bookAuthors[i]);
             m.put(bRATING, bookRating[i]);
@@ -68,9 +79,9 @@ public class ListActivity extends AppCompatActivity {
         }
 
         // массив имен атрибутов, из которых будут читаться данные
-        String[] from = { bTITLE, bAUTHOR, bRATING };
+        String[] from = { bIMAGE, bTITLE, bAUTHOR, bRATING };
         // массив ID View-компонентов, в которые будут вставлять данные
-        int[] to = { R.id.tvTitle, R.id.tvAuthor, R.id.ratingBar };
+        int[] to = { R.id.ivImg, R.id.tvTitle, R.id.tvAuthor, R.id.ratingBar };
 
         // создаем адаптер
         sAdapter = new SimpleAdapter(this, dataAL, R.layout.list_item, from, to);
@@ -134,11 +145,13 @@ public class ListActivity extends AppCompatActivity {
             case 1975:
                 if (resultCode == RESULT_OK) {
                     // получаем из intent
+                    int newI = data.getIntExtra("AddImage", 0);
                     String newT = data.getStringExtra("AddTitle");
                     String newA = data.getStringExtra("AddAuthor");
                     int newR = data.getIntExtra("AddRating", 0);
                     // создаем новый Map
                     m = new HashMap<String, Object>();
+                    m.put(bIMAGE, newI);
                     m.put(bTITLE, newT + " - NEW!");
                     m.put(bAUTHOR, newA);
                     m.put(bRATING, newR);
@@ -161,6 +174,9 @@ public class ListActivity extends AppCompatActivity {
         // определяем нажатую строку
         LinearLayout parentRow = (LinearLayout)v.getParent();
         // берем данные из ячеек строки
+        ImageView imageView = (ImageView) parentRow.findViewById(R.id.ivImg);
+        imageView.buildDrawingCache();
+        Bitmap getI = imageView.getDrawingCache();
         TextView txtView1 = (TextView) parentRow.findViewById(R.id.tvTitle);
         String getT = txtView1.getText().toString();
         TextView txtView2 = (TextView) parentRow.findViewById(R.id.tvAuthor);
@@ -168,7 +184,10 @@ public class ListActivity extends AppCompatActivity {
         RatingBar ratingBar = (RatingBar) parentRow.findViewById(R.id.ratingBar);
         int getR = (int) ratingBar.getRating();
 
+        Bundle extras = new Bundle();
         Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
+        extras.putParcelable("getImage", getI);
+        intent.putExtras(extras);
         intent.putExtra("getTitle", getT);
         intent.putExtra("getAuthor", getA);
         intent.putExtra("getRating", getR);

@@ -1,15 +1,23 @@
 package com.example.xox_ua.practice_07_030618;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class DescriptionActivity extends MainActivity {
     public ImageView ivImgDescr;
@@ -37,12 +45,16 @@ public class DescriptionActivity extends MainActivity {
 
         if (getIntent().getBooleanExtra("Notification", false)) {
             // получаем интент
+            Bundle extras = getIntent().getExtras();
+            assert extras != null;
+            Bitmap descrI = (Bitmap) extras.getParcelable("getImage");
             Intent intent = getIntent();
             String descrT = intent.getStringExtra("getTitle");
             String descrA = intent.getStringExtra("getAuthor");
             int descrR = intent.getIntExtra("getRating", 0);
             int descrD = intent.getIntExtra("getDescr", 0);
             // выводим полученные данные в соотвествующих областях
+            ivImgDescr.setImageBitmap(descrI);
             tvTitleDescr.setText(descrT);
             tvAuthorDescr.setText(descrA);
             ratingBarDescr.setRating(descrR);
