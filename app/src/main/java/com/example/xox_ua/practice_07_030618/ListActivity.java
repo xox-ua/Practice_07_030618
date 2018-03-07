@@ -153,7 +153,6 @@ public class ListActivity extends AppCompatActivity {
                     String newA = data.getStringExtra("AddAuthor");
                     int newR = data.getIntExtra("AddRating", 0);
                     newD = data.getStringExtra("AddDescr");
-                    Log.v("addDescr", newD);
                     // создаем новый Map
                     m = new HashMap<String, Object>();
                     m.put(bIMAGE, R.drawable.zz_flg_eu);
@@ -197,7 +196,6 @@ public class ListActivity extends AppCompatActivity {
             // если это добавленная строка, то передаём описание из интента
             getD = newD;
         }
-        Log.v("LOREM", getD + "x");
         Bundle extras = new Bundle();
         Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
         extras.putParcelable("getImage", getI);
