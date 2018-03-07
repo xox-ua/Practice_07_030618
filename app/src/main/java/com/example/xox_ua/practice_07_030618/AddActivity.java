@@ -42,13 +42,14 @@ public class AddActivity extends AppCompatActivity {
                 // считываем введённые данные
                 String dataT = etTitle.getText().toString();
                 String dataA = etAuthor.getText().toString();
-                // String dataD = etDescr.getText().toString();
+                String dataD = etDescr.getText().toString();
                 int dataR = (int) mRatingBar.getRating();
                 // отдаём через intent
                 Intent intent = new Intent(getApplicationContext(), ListActivity.class);
                 intent.putExtra("AddTitle", dataT);
                 intent.putExtra("AddAuthor", dataA);
                 intent.putExtra("AddRating", dataR);
+                intent.putExtra("AddDescr", dataD);
                 setResult(RESULT_OK, intent);
                 finish();
             }

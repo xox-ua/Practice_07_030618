@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 public class ListActivity extends AppCompatActivity {
@@ -45,11 +46,14 @@ public class ListActivity extends AppCompatActivity {
     final String bTITLE = "title";
     final String bAUTHOR = "author";
     final String bRATING = "rate";
+    final String bDESCR = "description";
     public Button btnAdd;
     public ArrayList<Map<String, Object>> dataAL;
     public SimpleAdapter sAdapter;
     public Map<String, Object> m;
     public ListView lv;
+    String newD;
+    String getD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,16 +149,18 @@ public class ListActivity extends AppCompatActivity {
             case 1975:
                 if (resultCode == RESULT_OK) {
                     // получаем из intent
-                    int newI = data.getIntExtra("AddImage", 0);
                     String newT = data.getStringExtra("AddTitle");
                     String newA = data.getStringExtra("AddAuthor");
                     int newR = data.getIntExtra("AddRating", 0);
+                    newD = data.getStringExtra("AddDescr");
+                    Log.v("addDescr", newD);
                     // создаем новый Map
                     m = new HashMap<String, Object>();
-                    m.put(bIMAGE, newI);
+                    m.put(bIMAGE, R.drawable.zz_flg_eu);
                     m.put(bTITLE, newT + " - NEW!");
                     m.put(bAUTHOR, newA);
                     m.put(bRATING, newR);
+                    m.put(bDESCR, newD);
                     // добавляем его в коллекцию
                     dataAL.add(m);
                     // уведомляем, что данные изменились
@@ -184,6 +190,14 @@ public class ListActivity extends AppCompatActivity {
         RatingBar ratingBar = (RatingBar) parentRow.findViewById(R.id.ratingBar);
         int getR = (int) ratingBar.getRating();
 
+        if (newD == null) {
+            // если описание отсутствует показываем рыбу
+            getD = getResources().getString(R.string.lorem);
+        } else if (getT.contains("NEW!")){
+            // если это добавленная строка, то передаём описание из интента
+            getD = newD;
+        }
+        Log.v("LOREM", getD + "x");
         Bundle extras = new Bundle();
         Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
         extras.putParcelable("getImage", getI);
@@ -191,7 +205,7 @@ public class ListActivity extends AppCompatActivity {
         intent.putExtra("getTitle", getT);
         intent.putExtra("getAuthor", getA);
         intent.putExtra("getRating", getR);
-        intent.putExtra("getDescr", R.string.lorem);
+        intent.putExtra("getDescr", getD);
         intent.putExtra("Notification", true);
         startActivity(intent);
     }

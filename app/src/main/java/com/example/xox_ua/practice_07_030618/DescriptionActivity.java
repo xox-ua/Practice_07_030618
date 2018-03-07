@@ -52,7 +52,7 @@ public class DescriptionActivity extends MainActivity {
             String descrT = intent.getStringExtra("getTitle");
             String descrA = intent.getStringExtra("getAuthor");
             int descrR = intent.getIntExtra("getRating", 0);
-            int descrD = intent.getIntExtra("getDescr", 0);
+            String descrD = intent.getStringExtra("getDescr");
             // выводим полученные данные в соотвествующих областях
             ivImgDescr.setImageBitmap(descrI);
             tvTitleDescr.setText(descrT);
