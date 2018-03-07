@@ -8,9 +8,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -79,13 +81,28 @@ public class ListActivity extends AppCompatActivity {
 
 // !!!!!!!!!!!!!! НЕ РАБОТАЕТ
         // короткое нажатие на строку
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            //@Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String mess = "Выбрана позиция: " + position;
-                Toast.makeText(getApplicationContext(), mess, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            //@Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String mess = "Выбрана позиция: " + position;
+//                Toast.makeText(getApplicationContext(), mess, Toast.LENGTH_SHORT).show();
+//
+//                TextView txtView1 = (TextView) parent.findViewById(R.id.tvTitle);
+//                String getT = txtView1.getText().toString();
+//                TextView txtView2 = (TextView) parent.findViewById(R.id.tvAuthor);
+//                String getA = txtView2.getText().toString();
+//                RatingBar ratingBar = (RatingBar) parent.findViewById(R.id.ratingBar);
+//                int getR = (int) ratingBar.getRating();
+//
+//                Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
+//                intent.putExtra("getTitle", getT);
+//                intent.putExtra("getAuthor", getA);
+//                intent.putExtra("getRating", getR);
+//                intent.putExtra("getDescr", R.string.lorem);
+//                intent.putExtra("Notification", true);
+//                startActivity(intent);
+//            }
+//        });
 
         // продолжительное нажатие на строку
         lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -137,4 +154,27 @@ public class ListActivity extends AppCompatActivity {
 
         }
     }
+
+    // короткое нажатие на строку ======= настоящие герои всегда идут другим путём :)))
+    public void сlickHandler(View v)
+    {
+        // определяем нажатую строку
+        LinearLayout parentRow = (LinearLayout)v.getParent();
+        // берем данные из ячеек строки
+        TextView txtView1 = (TextView) parentRow.findViewById(R.id.tvTitle);
+        String getT = txtView1.getText().toString();
+        TextView txtView2 = (TextView) parentRow.findViewById(R.id.tvAuthor);
+        String getA = txtView2.getText().toString();
+        RatingBar ratingBar = (RatingBar) parentRow.findViewById(R.id.ratingBar);
+        int getR = (int) ratingBar.getRating();
+
+        Intent intent = new Intent(ListActivity.this, DescriptionActivity.class);
+        intent.putExtra("getTitle", getT);
+        intent.putExtra("getAuthor", getA);
+        intent.putExtra("getRating", getR);
+        intent.putExtra("getDescr", R.string.lorem);
+        intent.putExtra("Notification", true);
+        startActivity(intent);
+    }
+
 }
