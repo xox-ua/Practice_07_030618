@@ -101,7 +101,6 @@ public class ListActivity extends AppCompatActivity {
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                String mess = "Выбрана позиция: " + position;
 //                Toast.makeText(getApplicationContext(), mess, Toast.LENGTH_SHORT).show();
-//
 //                TextView txtView1 = (TextView) parent.findViewById(R.id.tvTitle);
 //                String getT = txtView1.getText().toString();
 //                TextView txtView2 = (TextView) parent.findViewById(R.id.tvAuthor);
